@@ -7,6 +7,12 @@ class ChartBar extends StatelessWidget {
 
   ChartBar(this.label, this.spendingAmount, this.spendingPctOfTotal);
 
+  
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
@@ -18,9 +24,11 @@ class ChartBar extends StatelessWidget {
               child: Text('₹ ${spendingAmount.toStringAsFixed(0)}'),
             ),
           ),
+
           SizedBox(
             height: constraints.maxHeight * 0.05,
           ),
+
           Container(
             height: constraints.maxHeight * 0.6,
             width: 10,
@@ -45,9 +53,11 @@ class ChartBar extends StatelessWidget {
               ],
             ),
           ),
+
           SizedBox(
             height: constraints.maxHeight * 0.05,
           ),
+          
           Container(
             height: constraints.maxHeight * 0.15,
             child: FittedBox(

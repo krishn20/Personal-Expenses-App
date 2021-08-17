@@ -11,6 +11,14 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+
+  //Setting the basic theme using StatelessWidget build, and then creating
+  //and calling MyHomePage class for Stateful purposes.
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -44,12 +52,20 @@ class MyApp extends StatelessWidget {
   }
 }
 
+
+
+
+//***************************************************************//
+//******************* MyHomePage Class **************************//
+//***************************************************************//
+
 class MyHomePage extends StatefulWidget {
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
   final List<Transactions> _userTransactions = [
 //    Transactions(
 //      id: '1',
@@ -67,14 +83,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool _showChart = false;
 
-  List<Transactions> get _recentTransactions {
-    return _userTransactions.where((tx) {
-      return tx.date.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
-      );
-    }).toList();
+
+  //***************************************************************//
+  //***************** Transaction related functions ***************//
+
+  void _showAddNewTransaction(BuildContext ctx) {
+    showModalBottomSheet(
+        context: ctx,
+        builder: (_) {
+          return GestureDetector(
+            child: NewTransaction(_addNewTransaction),
+            onTap: () {},
+            behavior: HitTestBehavior.opaque,
+          );
+        });
   }
 
   void _addNewTransaction(
@@ -98,23 +120,33 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  void _showAddNewTransaction(BuildContext ctx) {
-    showModalBottomSheet(
-        context: ctx,
-        builder: (_) {
-          return GestureDetector(
-            child: NewTransaction(_addNewTransaction),
-            onTap: () {},
-            behavior: HitTestBehavior.opaque,
-          );
-        });
+  List<Transactions> get _recentTransactions {
+    return _userTransactions.where((tx) {
+      return tx.date.isAfter(
+        DateTime.now().subtract(
+          Duration(days: 7),
+        ),
+      );
+    }).toList();
   }
+
+
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
 
   @override
   Widget build(BuildContext context) {
+
+    //------------------------------------------------------//
+    //setting up the Landscape check variable.
     final isLandscape =
         MediaQuery.of(context).orientation == Orientation.landscape;
 
+
+    //------------------------------------------------------//
+    //setting up the appbar variable.
     final PreferredSizeWidget appbar = Platform.isIOS
         ? CupertinoNavigationBar(
             middle: Text(
@@ -140,6 +172,9 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           );
 
+
+    //------------------------------------------------------//
+    //setting up the List Item Widget variable.
     final txListWidget = Container(
       height: (MediaQuery.of(context).size.height -
               appbar.preferredSize.height -
@@ -148,11 +183,19 @@ class _MyHomePageState extends State<MyHomePage> {
       child: TransactionsList(_userTransactions, deleteTransaction),
     );
 
+
+    //------------------------------------------------------//
+    //setting up the appbody variable.
     final appBody = SafeArea(
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+
+            //CHART
+            //if in landscape mode, we will show a switch to alternate between chart and transactions.
+            //else, we will show chart and 
+
             if (isLandscape)
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -172,6 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ],
               ),
+
             if (!isLandscape)
               Container(
                 height: (MediaQuery.of(context).size.height -
@@ -180,7 +224,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.3,
                 child: Chart(_recentTransactions),
               ),
+
+
+            //LIST
+            //if not in landscape mode, we show list widget on 70% screen.
+            //else, we will show the list depending on the switch value.
+
             if (!isLandscape) txListWidget,
+
             if (isLandscape)
               _showChart
                   ? Container(
@@ -195,6 +246,12 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
     );
+
+
+    //------------------------------------------------------//
+    //Finally, after setting all the widget variable values,
+    //we return a Scaffold with it's properties set
+    //using these variables.
 
     return Platform.isIOS
         ? CupertinoPageScaffold(

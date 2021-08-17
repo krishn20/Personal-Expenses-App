@@ -8,10 +8,18 @@ class TransactionsList extends StatelessWidget {
 
   TransactionsList(this.transactions, this.deleteTx);
 
+
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
+
   @override
   Widget build(BuildContext context) {
+    
     return Container(
       height: 438,
+      //If transaction list is empty, then we display a "No Items" image, else we display the list items.
       child: transactions.isEmpty
           ? LayoutBuilder(builder: (context, constraints) {
               return Column(

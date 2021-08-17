@@ -12,8 +12,15 @@ class TransactionItem extends StatelessWidget {
   final Transactions transaction;
   final Function deleteTx;
 
+
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
+
   @override
   Widget build(BuildContext context) {
+
     return Card(
       elevation: 6,
       margin: EdgeInsets.symmetric(vertical: 5.0, horizontal: 8.0),
@@ -27,13 +34,16 @@ class TransactionItem extends StatelessWidget {
             ),
           ),
         ),
+
         title: Text(
           transaction.title,
           style: Theme.of(context).textTheme.title,
         ),
+
         subtitle: Text(
           DateFormat.yMMMd().format(transaction.date),
         ),
+        
         trailing: MediaQuery.of(context).size.width > 420
             ? FlatButton.icon(
           onPressed: () => deleteTx(transaction.id),

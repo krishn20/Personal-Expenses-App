@@ -12,10 +12,34 @@ class NewTransaction extends StatefulWidget {
   _NewTransactionState createState() => _NewTransactionState();
 }
 
+
+
 class _NewTransactionState extends State<NewTransaction> {
+
   final titleController = TextEditingController();
   final amountController = TextEditingController();
   DateTime selectedDate;
+
+
+  //***************************************************************//
+  //******************** Methods **********************************//
+
+  void displayDatePicker() {
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2021),
+      lastDate: DateTime.now(),
+    ).then((pickedDate) {
+      if (pickedDate == null) {
+        return;
+      }
+      setState(() {
+        selectedDate = pickedDate;
+      });
+    });
+  }
+
 
   void submitData() {
     if (amountController.text.isEmpty) {
@@ -24,6 +48,9 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
+    //based on the value received in the text based fields, we could have done some toast messages or some other error display
+    //after every onSubmitted call in the TextField Widget.
+    //As of now, if anyhting is wrong, we just don't do anything and return null.
     if (enteredTitle.isEmpty || enteredAmount <= 0 || selectedDate == null) {
       return;
     }
@@ -37,24 +64,15 @@ class _NewTransactionState extends State<NewTransaction> {
     Navigator.of(context).pop();
   }
 
-  void displayDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
-    ).then((pickedDate) {
-      if (pickedDate == null) {
-        return;
-      }
-      setState(() {
-        selectedDate = pickedDate;
-      });
-    });
-  }
+
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
 
   @override
   Widget build(BuildContext context) {
+    
     return SingleChildScrollView(
       child: Card(
         elevation: 8,
@@ -68,6 +86,7 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
+
               TextField(
                 cursorColor: Theme.of(context).accentColor,
                 decoration: InputDecoration(labelText: 'Title'),
@@ -83,6 +102,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 onSubmitted: (_) => submitData(),
                 //onChanged: (val) => amountInput = val,
               ),
+
               Container(
                 height: 100,
                 child: Row(
@@ -113,9 +133,11 @@ class _NewTransactionState extends State<NewTransaction> {
                   ],
                 ),
               ),
+
               SizedBox(
                 height: 30,
               ),
+
               RaisedButton(
                 child: Text(
                   'Add Transaction',

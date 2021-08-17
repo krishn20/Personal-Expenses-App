@@ -8,7 +8,15 @@ class Chart extends StatelessWidget {
 
   Chart(this.recentTransactions);
 
+
+  
+  //***************************************************************//
+  //************************* Methods *****************************//
+
   List<Map<String, Object>> get groupedTransactionValues {
+    //Here, we generate a list using 7 as length.
+    //He get index values from 0 to 6, and we keep on generating and adding to the map type list,
+    //until all indices have been traversed for.
     return List.generate(7, (index) {
 
       final weekDay = DateTime.now().subtract(
@@ -32,10 +40,19 @@ class Chart extends StatelessWidget {
   }
 
   double get totalSpending {
+    //Here we use fold, which assigns an initial value to a variable(sum)
+    //and then helps us combine the values of a collection(item)
+    //and return that single combined value back.
     return groupedTransactionValues.fold(0.0, (sum, item) {
       return sum + item['amount'];
     });
   }
+
+
+
+  //***************************************************************//
+  //******************** Widgets Build ****************************//
+  //***************************************************************//
 
   @override
   Widget build(BuildContext context) {
