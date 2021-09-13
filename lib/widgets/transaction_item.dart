@@ -37,7 +37,7 @@ class TransactionItem extends StatelessWidget {
 
         title: Text(
           transaction.title,
-          style: Theme.of(context).textTheme.title,
+          style: Theme.of(context).textTheme.bodyText1,
         ),
 
         subtitle: Text(

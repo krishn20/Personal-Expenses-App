@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
         accentColor: Colors.lime,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              title: TextStyle(
+              bodyText1: TextStyle(
                 fontSize: 18,
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
             ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
-                title: TextStyle(
+                bodyText1: TextStyle(
                   fontSize: 20,
                   fontFamily: 'OpenSans',
                   fontWeight: FontWeight.bold,
@@ -202,7 +202,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: <Widget>[
                   Text(
                     'Show Chart',
-                    style: Theme.of(context).textTheme.title,
+                    style: Theme.of(context).textTheme.bodyText1,
                   ),
                   Switch.adaptive(
                     activeColor: Theme.of(context).accentColor,
